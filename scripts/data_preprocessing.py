@@ -30,7 +30,7 @@ def clean_data(data):
 
         # Handle outliers only for numerical columns
         for column in data.select_dtypes(include=[np.number]).columns:
-            if column not in ['Date']:  # Exclude non-numeric columns like Date
+            if column not in ['Date']:
                 q1 = data[column].quantile(0.25)
                 q3 = data[column].quantile(0.75)
                 iqr = q3 - q1
@@ -60,6 +60,7 @@ def visualize_data(data):
             plt.xlabel(column)
             plt.ylabel("Frequency")
             plt.show()
+            logger.info(f"Displayed distribution of {column}.")
 
         # Correlation heatmap of numerical features
         corr_matrix = data[numerical_cols].corr()
@@ -67,7 +68,7 @@ def visualize_data(data):
         sns.heatmap(corr_matrix, annot=True, cmap='coolwarm', fmt=".2f", cbar=True)
         plt.title("Correlation Heatmap")
         plt.show()
-
+        logger.info("Displayed correlation heatmap.")
         # Boxplots to visualize outliers in numerical columns
         for column in numerical_cols:
             plt.figure(figsize=(8, 6))
@@ -94,6 +95,7 @@ def check_promotions_distribution(data):
     plt.xlabel('Promo')
     plt.ylabel('Frequency')
     plt.show()
+    logger.info("Promotions distribution plot displayed.")
 
 def analyze_sales_behavior(data):
     """Analyze sales behavior before, during, and after holidays."""
@@ -119,6 +121,7 @@ def analyze_sales_behavior(data):
     plt.xlabel('Period')
     plt.ylabel('Average Sales')
     plt.show()
+    logger.info("Sales behavior around holidays displayed.")
 
 def seasonal_purchase_behavior(data):
     """Find out seasonal purchase behaviors such as Christmas, Easter, etc."""
@@ -137,6 +140,7 @@ def seasonal_purchase_behavior(data):
     plt.xlabel('Holiday')
     plt.ylabel('Average Sales')
     plt.show()
+    logger.info("Seasonal purchase behavior displayed.")
 
 def sales_and_customers_correlation(data):
     """Analyze the correlation between sales and the number of customers."""
@@ -153,7 +157,7 @@ def sales_and_customers_correlation(data):
     plt.xlabel('Number of Customers')
     plt.ylabel('Sales')
     plt.show()
-
+    logger.info("Sales and customers correlation plot displayed.")
 def promo_effect_on_sales(data):
     """Analyze how promotions affect sales."""
     try:
@@ -169,6 +173,7 @@ def promo_effect_on_sales(data):
     plt.xlabel('Promo')
     plt.ylabel('Average Sales')
     plt.show()
+    logger.info("Promo effect on sales plot displayed.")
 
 def analyze_customer_behavior(data):
     """Analyze customer behavior during store opening and closing times."""
@@ -193,7 +198,7 @@ def analyze_customer_behavior(data):
     plt.xlabel('Store Status')
     plt.ylabel('Average Sales')
     plt.show()
-
+    logger.info("Customer behavior analysis displayed.")
 def store_open_weekdays(data):
     """Check which stores are open on all weekdays and their sales on weekends."""
     try:
@@ -215,4 +220,4 @@ def store_open_weekdays(data):
     plt.xlabel('Store ID')
     plt.ylabel('Average Sales')
     plt.show()
-    
+    logger.info("Store operations on weekdays and weekend sales displayed.")

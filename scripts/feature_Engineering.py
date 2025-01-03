@@ -1,15 +1,18 @@
 import pandas as pd
 import numpy as np
-import seaborn as sns
+import os
+import sys
 import matplotlib.pyplot as plt
-# from scripts.utils.logger import configure_logger
+import seaborn as sns
+sys.path.append(os.path.abspath('../scripts'))
+from utils.logger import configure_logger
 
-# logger = configure_logger('feature_engineering', 'logs/feature_engineering.log')
+logger = configure_logger('data_preprocessing', '../logs/data_preprocessing.log')
 
 def create_features(data):
     """Enhanced feature engineering with graphical representation."""
     try:
-        # logger.info("Starting feature engineering...")
+        logger.info("Starting feature engineering...")
         
         # Extract date-related features
         if 'Date' in data.columns:
@@ -20,7 +23,7 @@ def create_features(data):
             data['WeekOfYear'] = data['Date'].dt.isocalendar().week
             data['DayOfWeek'] = data['Date'].dt.dayofweek
             data['IsWeekend'] = data['DayOfWeek'].isin([5, 6]).astype(int)
-            # logger.info("Date-related features extracted.")
+            logger.info("Date-related features extracted.")
 
         # Seasonal Features
         data['IsChristmas'] = ((data['Month'] == 12) & (data['Day'] > 20)).astype(int)
@@ -29,24 +32,24 @@ def create_features(data):
         # Promo effectiveness
         if 'Promo' in data.columns and 'Customers' in data.columns:
             data['PromoImpact'] = data['Promo'] * data['Customers']
-            # logger.info("Promo impact feature created.")
+            logger.info("Promo impact feature created.")
         
         # Distance-related feature interactions
         if 'CompetitionDistance' in data.columns:
             data['CompetitionProximity'] = data['CompetitionDistance'].apply(
                 lambda x: 1 / x if x > 0 else 0
             )
-            # logger.info("Competition proximity feature created.")
+            logger.info("Competition proximity feature created.")
 
         # Sales transformations
         if 'Sales' in data.columns:
             data['LogSales'] = data['Sales'].apply(lambda x: np.log1p(x) if x > 0 else 0)
-            # logger.info("Log-transformed 'Sales' column.")
+            logger.info("Log-transformed 'Sales' column.")
 
-        # logger.info("Feature engineering completed.")
+        logger.info("Feature engineering completed.")
         return data
     except Exception as e:
-        # logger.error(f"Error during feature engineering: {e}")
+        logger.error(f"Error during feature engineering: {e}")
         raise
 
 def plot_feature_distributions(data):
@@ -61,3 +64,6 @@ def plot_feature_distributions(data):
             plt.xlabel(feature)
             plt.ylabel('Frequency')
             plt.show()
+            logger.info(f"Plotting distribution of '{feature}'.")
+        else:
+            logger.warning(f"Feature '{feature}' not found in the dataset.")
