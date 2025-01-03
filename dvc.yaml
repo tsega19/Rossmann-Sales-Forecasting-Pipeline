@@ -1,27 +1,18 @@
 stages:
-  prepare:
-    cmd: python scripts/prepare.py
+  data_preprocessing:
+    cmd: python scripts/data_preprocessing.py
     deps:
-      - data/raw/4_test.csv
-      - data/raw/4_store.csv
-      - data/raw/4_train.csv
-      - scripts/prepare.py
-    outs:
-      - data/processed/data.csv
-
-  train:
-    cmd: python scripts/train.py
-    deps:
-      - data/processed/data.csv
-      - scripts/train.py
+      - scripts/data_preprocessing.py
       - params.yaml
     outs:
-      - model.pkl
+      - data/processed_data.pkl
 
-  evaluate:
-    cmd: python scripts/evaluate.py
+  feature_engineering:
+    cmd: python scripts/feature_Engineering.py
     deps:
-      - model.pkl
-      - scripts/evaluate.py
-    metrics:
-      - metrics.json
+      - scripts/feature_Engineering.py
+      - data/processed_data.pkl
+      - params.yaml
+    outs:
+      - data/features.pkl
+
