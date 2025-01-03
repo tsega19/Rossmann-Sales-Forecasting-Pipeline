@@ -1,6 +1,7 @@
+
 # Rossmann Sales Forecasting Pipeline
 
-The **Rossmann Sales Forecasting Pipeline** is designed to predict daily store sales by leveraging machine learning techniques. It considers key factors such as promotions, holidays, and competitor proximity to provide accurate sales forecasts up to six weeks in advance. This pipeline supports decision-making by providing real-time predictions via a REST API.
+The **Rossmann Sales Forecasting Pipeline** is designed to predict daily store sales by leveraging machine learning techniques. The pipeline considers key factors such as promotions, holidays, and competitor proximity to provide accurate sales forecasts up to six weeks in advance. This system supports decision-making by providing real-time predictions, helping retailers optimize inventory management and marketing strategies.
 
 ## Project Structure
 
@@ -29,6 +30,8 @@ Rossmann-Sales-Forecasting-Pipeline/
 
 ## Pipeline Overview
 
+The pipeline follows a series of stages to process data, train the model, and evaluate its performance:
+
 ### Stages
 1. **Prepare**:
    - Cleans raw data and prepares it for model training.
@@ -41,7 +44,7 @@ Rossmann-Sales-Forecasting-Pipeline/
    - Output: `model.pkl`
 
 3. **Evaluate**:
-   - Evaluates the trained model and generates metrics.
+   - Evaluates the trained model and generates performance metrics.
    - Input: Trained model
    - Output: `metrics.json`
 
@@ -56,54 +59,30 @@ The pipeline uses the following dependencies:
   - `scripts/train.py`
   - `scripts/evaluate.py`
 
-### Parameters
-The model's parameters are defined in `params.yaml`:
-```yaml
-model:
-  n_estimators: 100
-  max_depth: 10
-  min_samples_split: 2
-  random_state: 42
-```
-
 ## Key Features
-- **Data Cleaning**:
-  - Handles missing values, outliers, and ensures data integrity.
-- **Feature Engineering**:
-  - Includes preprocessing steps for both numerical and categorical data.
-- **Visualization**:
-  - Distribution plots, correlation heatmaps, and outlier analysis.
-- **Evaluation**:
-  - Generates metrics to assess model performance.
+- **Data Cleaning**: Handles missing values, outliers, and ensures data integrity.
+- **Feature Engineering**: Includes preprocessing steps for both numerical and categorical data.
+- **Visualization**: Distribution plots, correlation heatmaps, and outlier analysis to gain insights into the data.
 
 ## Usage
 
 ### 1. Install Dependencies
 Ensure you have Python and the required libraries installed. Use the following command to install dependencies:
+
 ```bash
 pip install -r requirements.txt
 ```
 
 ### 2. Run Pipeline
-Run the DVC pipeline stages:
+Run the DVC pipeline stages to prepare the data, perform feature engineering, and train the model:
+
 ```bash
 # Prepare data
 dvc repro prepare
 
-# Train model
+# Train the model
 dvc repro train
 
-# Evaluate model
+# Evaluate the model
 dvc repro evaluate
 ```
-
-### 3. Visualize Results
-Check evaluation metrics in `metrics.json` and visualize results using notebooks in the `notebook/` folder.
-
-## Future Improvements
-- Extend feature engineering to include weather data and regional economic indicators.
-- Experiment with deep learning models for improved accuracy.
-- Deploy the pipeline using containerized microservices for scalability.
-
-## License
-This project is licensed under the MIT License. See `LICENSE` for more details.
